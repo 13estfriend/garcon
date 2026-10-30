@@ -1,0 +1,64 @@
+name: Sync Garmin training data
+
+on:
+  workflow_dispatch:
+  # Edit these lines to customize when your private repository is updated.
+  # This example runs at 06:25 and 20:25 local Swedish time, every day.
+  schedule:
+    - cron: '25 6,20 * * *'
+      timezone: 'Europe/Stockholm'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: garcon-private-health-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: SAFETY - refuse public health data storage
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          visibility="$(gh api "repos/$GITHUB_REPOSITORY" --jq '.private')"
+          if [[ "$visibility" != "true" ]]; then
+            echo "::error::GARCON SAFETY STOP: This repository is PUBLIC. Personal health data must not be uploaded to a public repository. Create a PRIVATE repository from the GARCON template."
+            exit 1
+          fi
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Garmin client
+        run: python -m pip install --disable-pip-version-check -r requirements.txt
+
+      - name: Run offline tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Sync Garmin data
+        env:
+          GARMIN_PERSONAL_API_KEY: ${{ secrets.GARMIN_PERSONAL_API_KEY }}
+        run: python scripts/sync_garmin.py
+
+      - name: Commit private training snapshot
+        shell: bash
+        run: |
+          git add -f data/training.json
+          if git diff --cached --quiet; then
+            echo "No changes to training snapshot."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "data: refresh private Garmin training snapshot"
+          git push origin "HEAD:$GITHUB_REF_NAME"
