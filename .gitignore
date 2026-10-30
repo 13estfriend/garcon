@@ -1,0 +1,16 @@
+# Local environments, secrets, and Garmin tokens
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+.pytest_cache/
+.ruff_cache/
+*token*.json
+*api-key*
+
+# JSON health exports are ignored locally. GitHub Actions explicitly
+# force-adds this file only after confirming the repo is PRIVATE.
+data/*.json
+data/*.tmp
