@@ -7,6 +7,7 @@ credentials and bearer tokens are never written to the JSON export.
 
 from __future__ import annotations
 
+import getpass
 import json
 import os
 import sys
@@ -244,8 +245,10 @@ def synchronize(client: object, existing: dict, today: date) -> dict:
 
 def main() -> int:
     key = os.environ.get("GARMIN_PERSONAL_API_KEY", "").strip()
+    if not key and sys.stdin.isatty():
+        key = getpass.getpass("Garmin Personal API key (hidden): ").strip()
     if not key:
-        print("Missing GitHub Actions secret GARMIN_PERSONAL_API_KEY", file=sys.stderr)
+        print("Missing GARMIN_PERSONAL_API_KEY. Add a GitHub Actions secret or run locally in an interactive terminal.", file=sys.stderr)
         return 1
 
     existing = json.loads(OUTPUT.read_text(encoding="utf-8")) if OUTPUT.exists() else {}
