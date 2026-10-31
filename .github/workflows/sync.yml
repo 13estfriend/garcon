@@ -17,6 +17,9 @@ concurrency:
 
 jobs:
   sync:
+    # Do not run the personal-data sync in the PUBLIC upstream template.
+    # Repositories created from this template have their own name and run normally.
+    if: github.repository != '13estfriend/garcon'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
