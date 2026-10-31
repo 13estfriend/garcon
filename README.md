@@ -41,14 +41,12 @@ No real user data, Garmin API keys, tokens, or JSON exports are included in this
 ### 1. Make your own PRIVATE repository
 
 1. Open [the GARCON source repository](https://github.com/13estfriend/garcon).
-2. Click **Use this template → Create a new repository** (once the maintainer has enabled template mode).
+2. Click **Use this template → Create a new repository**.
 3. Select **your own GitHub account** as owner and choose a name, such as **my-garmin-data**.
 4. **Select PRIVATE**. Double-check the visibility before continuing.
 5. Click **Create repository**.
 
 **Important:** Do **not** just enable syncing on the original, public GARCON source repo. Do **not** use a public fork for real data. GitHub templates create a fresh repository without the source repo's commit history.
-
-If you do not see **Use this template**, the project maintainer may still need to enable **Settings → General → Template repository**. In that case, ask the maintainer or clone the code locally instead.
 
 ### 2. Create your personal Garmin API key
 
