@@ -41,14 +41,12 @@ Garmins Personal API är avsett för att en person ska komma åt **sin egen data
 ### Steg 1 – Skapa ett EGET PRIVAT repo
 
 1. Gå till [GARCON på GitHub](https://github.com/13estfriend/garcon).
-2. Klicka på **Use this template → Create a new repository** (så snart template-funktionen är aktiverad av projektägaren).
+2. Klicka på **Use this template → Create a new repository**.
 3. Välj ditt eget GitHub-konto och döp repot till exempelvis **my-garmin-data**.
 4. Välj **PRIVATE**. Kontrollera en gång extra.
 5. Klicka på **Create repository**.
 
 **VARNING:** Starta inte automatisk synk i det ursprungliga, **publika** GARCON-repot. Använd inte heller en publik fork för dina riktiga träningsuppgifter.
-
-Syns inte knappen **Use this template**? Då måste projektägaren först slå på **Settings → General → Template repository**. Du kan även ladda ned koden och köra den lokalt.
 
 ### Steg 2 – Skapa din Garmin API-nyckel
 
